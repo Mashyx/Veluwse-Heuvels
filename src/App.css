@@ -64,18 +64,22 @@ main {
     text-decoration: none;
 }
 
-/* 6. De Footer: NIET MEER FIXED */
+/* 5. De Footer: WEER FIXED GEMAAKT */
 footer {
+    position: fixed; /* Staat altijd op dezelfde plek */
+    bottom: 0;       /* Helemaal onderaan */
+    left: 0;
     width: 100%;
     background-color: #2a1b10;
-    flex-shrink: 0; /* Zorgt dat de footer niet inkrimpt */
+    z-index: 1000;   /* Zorgt dat de footer boven de kaart blijft */
     text-align: center;
-    padding: 0.4rem 0 !important;
-    border-top: 2px solid #6e4a2b !important;
+    padding: 0.6rem 0 !important;
+    border-top: 3px solid #6e4a2b !important;
 }
 
 footer small {
     color: #f5e6c8;
     font-size: 0.75rem;
-    opacity: 0.8;
+    font-weight: bold;
+    opacity: 0.9;
 }
