@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import './Plaat.css';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import { platenData } from '../data/platenData';
+import './Plaat.css'; 
 
 function Plaat() {
+  const { id } = useParams(); 
+  const currentPlaat = platenData[id]; 
+  
   const [selectedHotspot, setSelectedHotspot] = useState(null);
   const navigate = useNavigate();
   const wrapperRef = useRef(null);
   const containerRef = useRef(null);
 
-  // We gebruiken refs om de staat van het slepen bij te houden zonder re-renders
   const state = useRef({
     isDragging: false,
     hasMoved: false,
@@ -19,12 +22,14 @@ function Plaat() {
     scale: 1
   });
 
-  const hotspots = [
-    { id: 1, top: '47%', left: '41%', title: 'Stoomkuilen', info: 'Tijdens het ritueel tonen de vier stoomkuilen verschillende scènes: een actieve kuil met stoom die richting de grafheuvel waait; een moeder en haar zoontje bij het blussen van stenen; een jongen die een hete steen brengt om te helpen; en een meisje dat in stilte afscheid neemt met een barnstenen aandenken. Verder beheert een man het vuur bij een haard waar stenen en aardewerk worden verhit, terwijl een buurvrouw met een pot water wacht om te helpen blussen..', link: '/storyline3' },
-    { id: 2, top: '15%', left: '52%', title: 'Dieren', info: ' Om te voorkomen dat de open heide tot een jong loofbos groeit liep er regelmatig vee rond. In dit geval heb ik ervoor gekozen om schapen in de verte af te beelden. Deze hebben weer een link met de herder (tweeling) op de middengrond, die even de tijd nam om bij het ritueel te zijn. Op het pad van heuvel 2 naar heuvel 1 lopen twee mensen. De vrouw heeft water meegenomen en de man naast haar heeft brandhout meegenomen voor het vuur. Tenslotte is de plek waar de plaggen net zijn afgestoken te zien achter de “wachter”, zodat er ook hier continuïteit in verhaallijn zit.', link: '/storyline1' },
-    { id: 3, top: '32%', left: '78%', title: 'Het grafritueel', info: 'Tijdens een begrafenisritueel legt de weduwe verkoold hout in het graf, terwijl een belangrijke vrouw een toespraak houdt. Rondom de grafheuvel staan familie en kennissen: sommigen rouwen en troosten elkaar, anderen kijken nieuwsgierig toe of brengen giften. Ontdek wwaarom ze dit doen en wat er precies gebeurt.', link: '/storyline4' },
-    { id: 4, top: '45%', left: '10%', title: 'Kleding', info: 'Hoe liep iemand er in de bronstijd eigenlijk bij? Ontdek gewaden, riemen en sieraden uit een lang vergane tijd en stel zelf een outfit samen als een echte stijlexpert uit de prehistorie!', link: '/storyline2' }
-  ];
+  if (!currentPlaat) {
+    return (
+      <div className="text-center py-5">
+        <h2>Oeps! Deze schoolplaat bestaat niet.</h2>
+        <Link to="/dashboard" className="btn btn-primary mt-3">Terug naar het overzicht</Link>
+      </div>
+    );
+  }
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
@@ -63,9 +68,7 @@ function Plaat() {
     };
 
     const onMouseDown = (e) => {
-      // Alleen slepen als we niet op de popup, knoppen of iconen klikken
       if (e.target.closest('.popup') || e.target.closest('.back-to-home') || e.target.closest('.vergrootglas')) return;
-
       state.current.isDragging = true;
       state.current.hasMoved = false;
       state.current.startX = e.clientX - state.current.offsetX;
@@ -75,11 +78,9 @@ function Plaat() {
 
     const onMouseMove = (e) => {
       if (!state.current.isDragging) return;
-      
       const x = e.clientX - state.current.startX;
       const y = e.clientY - state.current.startY;
 
-      // Check of er echt bewogen wordt
       if (Math.abs(x - state.current.offsetX) > 5 || Math.abs(y - state.current.offsetY) > 5) {
         state.current.hasMoved = true;
       }
@@ -93,6 +94,10 @@ function Plaat() {
     const onMouseUp = () => {
       state.current.isDragging = false;
       wrapper.style.cursor = 'grab';
+      
+      setTimeout(() => {
+        state.current.hasMoved = false;
+      }, 50);
     };
 
     wrapper.addEventListener('wheel', onWheel, { passive: false });
@@ -106,11 +111,10 @@ function Plaat() {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
     };
-  }, []);
+  }, [id]); 
 
   const handleHotspotClick = (e, spot) => {
     e.stopPropagation();
-    // Alleen popup openen als we NIET gesleept hebben
     if (!state.current.hasMoved) {
       setSelectedHotspot(spot);
     }
@@ -118,16 +122,16 @@ function Plaat() {
 
   return (
     <div id="plaat-wrapper" ref={wrapperRef}>
-      <Link to="/" className="back-to-home">← Terug</Link>
+      <Link to="/dashboard" className="back-to-home">← Overzicht</Link>
 
       <div 
         id="plaat-container" 
         ref={containerRef}
         onClick={() => { if(state.current.hasMoved) setSelectedHotspot(null); }}
       >
-        <img id="plaat-img" src="/images/grafheuvels.jpg" alt="Plaat" draggable="false" />
+        <img id="plaat-img" src={currentPlaat.image} alt={currentPlaat.title} draggable="false" />
         
-        {hotspots.map((spot) => (
+        {currentPlaat.hotspots.map((spot) => (
           <div 
             key={spot.id}
             className="vergrootglas" 
