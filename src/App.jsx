@@ -5,27 +5,25 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Plaat from './components/Plaat';
 import Storyline from './pages/Storyline';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   const location = useLocation();
-  
-  // Controleer of we op de plaat-pagina zijn
-  const isPlaatPage = location.pathname === '/plaat';
+  const isPlaatPage = location.pathname.startsWith('/plaat');
 
   return (
     <div className="app-container">
-      {/* Alleen tonen als we NIET op de plaat-pagina zijn */}
       {!isPlaatPage && <Navbar />}
 
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/plaat" element={<Plaat />} />
-          <Route path="/:id" element={<Storyline />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/plaat/:id" element={<Plaat />} />
+          <Route path="/storyline/:id" element={<Storyline />} />       
         </Routes>
       </main>
 
-      {/* Alleen tonen als we NIET op de plaat-pagina zijn */}
       {!isPlaatPage && <Footer />}
     </div>
   );
