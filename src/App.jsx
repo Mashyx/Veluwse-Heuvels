@@ -5,7 +5,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Plaat from './components/Plaat';
 import Storyline from './pages/Storyline';
-
+import InteractiveMap from './components/InteractiveMap';
 function App() {
   const location = useLocation();
   
@@ -22,6 +22,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/plaat" element={<Plaat />} />
           <Route path="/:id" element={<Storyline />} />
+          <Route path="/interactive-map" element={<InteractiveMap />} />
         </Routes>
       </main>
 
