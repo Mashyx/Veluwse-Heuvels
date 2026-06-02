@@ -95,7 +95,7 @@ function Storyline() {
           {step === 4 && (
             <div className="animate-fade-in">
               {data.quiz ? (
-                <Quiz questions={data.quiz} onComplete={() => navigate('/plaat/grafheuvels')} />
+                <Quiz questions={data.quiz} quizId={id} returnPath="/plaat/grafheuvels" />
               ) : (
                 <p>Quiz data niet gevonden...</p>
               )}
