@@ -13,10 +13,8 @@ function Storyline() {
   const navigate = useNavigate();
   const data = storylines[id];
   
-  // State om bij te houden in welke 'activiteit' we zitten (1 t/m 4)
   const [step, setStep] = useState(1);
 
-  // Als de storyline niet bestaat in onze data-file
   if (!data) {
     return (
       <div className="container text-center py-5">

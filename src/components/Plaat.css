@@ -34,9 +34,6 @@
     display: block;
     user-select: none;
     -webkit-user-drag: none;
-    /* Verbeter de kwaliteit bij inzoomen */
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
     /* De afbeelding zelf negeren voor events zodat hotspots bereikbaar zijn */
     pointer-events: none; 
 }
