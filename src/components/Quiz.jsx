@@ -1,11 +1,13 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function Quiz({ questions, onComplete }) {
+function Quiz({ questions, onComplete, returnPath = '/plaat/grafheuvels' }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isCorrect, setIsCorrect] = useState(null);
+  const navigate = useNavigate();
 
   const handleAnswer = (index) => {
     if (selectedAnswer !== null) return;
@@ -27,6 +29,14 @@ function Quiz({ questions, onComplete }) {
     }, 1500);
   };
 
+  const handleComplete = () => {
+    if (onComplete) {
+      onComplete();
+    } else {
+      navigate(returnPath);
+    }
+  };
+
   if (showResults) {
     return (
       <div className="quiz-results text-center p-4">
@@ -34,7 +44,7 @@ function Quiz({ questions, onComplete }) {
         <p className="fs-5 my-3">
           Je hebt <strong>{score}</strong> van de <strong>{questions.length}</strong> vragen goed!
         </p>
-        <button className="btn-finish-story" onClick={onComplete}>
+        <button className="btn-finish-story" onClick={handleComplete}>
           Volgende →
         </button>
       </div>
@@ -54,7 +64,7 @@ function Quiz({ questions, onComplete }) {
           if (selectedAnswer === index) {
             btnClass += isCorrect ? " btn-success" : " btn-danger";
           } else {
-            btnClass += " btn-primary"; // Dit pakt jouw bruine kleur uit de CSS
+            btnClass += " btn-primary";
           }
 
           return (
