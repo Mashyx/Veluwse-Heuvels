@@ -245,6 +245,59 @@ export default function Plaat() {
     };
   }, []);
 
+  const updatePopupPosition = () => {
+    if (!selectedHotspot || !containerRef.current || !wrapperRef.current) return;
+
+    const container = containerRef.current;
+    const wrapper = wrapperRef.current;
+    
+    // Bereken waar het vergrootglas op het scherm zou staan
+    const baseWidth = container.offsetWidth / state.current.scale;
+    const baseHeight = container.offsetHeight / state.current.scale;
+    
+    const hx = parseCoord(selectedHotspot.left, baseWidth);
+    const hy = parseCoord(selectedHotspot.top, baseHeight);
+    
+    // Screen positie van de hotspot
+    const screenX = state.current.offsetX + hx * state.current.scale;
+    const screenY = state.current.offsetY + hy * state.current.scale;
+    
+    // Verkrijg de corresponderende popup
+    const popup = document.querySelector(`[data-spot-id="${selectedHotspot.id}"].popup`);
+    if (!popup) return;
+
+    // Plaats popup net boven het vergrootglas-icoon
+    let left = screenX - 200; // Ongeveer halverwege
+    let top = screenY - 250; // Boven het icoon
+
+    // Houd de popup in het viewport
+    if (left < 10) left = 10;
+    if (left + 400 > window.innerWidth - 10) left = window.innerWidth - 410;
+    if (top < 10) top = 10;
+
+    popup.style.left = `${left}px`;
+    popup.style.top = `${top}px`;
+  };
+
+  useEffect(() => {
+    if (!selectedHotspot) return;
+
+    // Update de positie onmiddellijk
+    updatePopupPosition();
+
+    // Zet een animation frame loop om de positie continu bij te werken
+    let rafId;
+    const animate = () => {
+      updatePopupPosition();
+      rafId = requestAnimationFrame(animate);
+    };
+    rafId = requestAnimationFrame(animate);
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [selectedHotspot]);
+
   const handleHotspotClick = (e, spot) => { e.stopPropagation(); if (!state.current.hasMoved) setSelectedHotspot(spot); };
 
   const parseCoord = (val, size) => {
@@ -326,26 +379,30 @@ export default function Plaat() {
         <img id="plaat-img" src={currentPlaat.image} alt={currentPlaat.title} draggable="false" />
 
         {currentPlaat.hotspots.map((spot) => (
-          <div key={spot.id} className="vergrootglas" style={{ top: spot.top, left: spot.left, visibility: isZooming ? 'hidden' : 'visible' }} onClick={(e) => handleHotspotClick(e, spot)}>
+          <div key={spot.id} className="vergrootglas" data-spot-id={spot.id} style={{ top: spot.top, left: spot.left, visibility: isZooming ? 'hidden' : 'visible' }} onClick={(e) => handleHotspotClick(e, spot)}>
             <i className="bi bi-search"></i>
           </div>
         ))}
       </div>
 
-      <div className={`popup ${selectedHotspot ? 'active' : ''}`}>
-        <button id="popup-close" onClick={() => setSelectedHotspot(null)}>✖</button>
-        <div id="popup-content">
-          {selectedHotspot && (
-            <>
-              <strong>{selectedHotspot.title}</strong>
-              <p>{selectedHotspot.info}</p>
-              <button id="popup-button" onClick={(e) => { e.stopPropagation(); navigate(selectedHotspot.link); }}>
-                Ga naar verhaal
-              </button>
-            </>
-          )}
+      {currentPlaat.hotspots.map((spot) => (
+        <div 
+          key={spot.id}
+          className={`popup ${selectedHotspot && selectedHotspot.id === spot.id ? 'active' : ''}`}
+          data-spot-id={spot.id}
+          data-spot-top={spot.top}
+          data-spot-left={spot.left}
+        >
+          <button className="popup-close" onClick={() => setSelectedHotspot(null)}>✖</button>
+          <div className="popup-content">
+            <strong>{spot.title}</strong>
+            <p>{spot.info}</p>
+            <button className="popup-button" onClick={(e) => { e.stopPropagation(); navigate(spot.link); }}>
+              Ga naar verhaal
+            </button>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }
