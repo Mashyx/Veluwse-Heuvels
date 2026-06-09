@@ -7,6 +7,7 @@ import './Storyline.css';
 import DierenGame from '../components/games/DierenGame'; 
 import KledingGame from '../components/games/KledingGame';
 import RitueelGame from '../components/games/RitueelGame';
+import ZwaardGame from '../components/games/ZwaardGame';
 
 function Storyline() {
   const { id } = useParams(); 
@@ -39,7 +40,9 @@ function Storyline() {
         return <StoomkuilGame />;
         case 'storyline4':
         return <RitueelGame />;
-        default:
+        case 'storyline9':
+          return <ZwaardGame />;
+          default:
         return <div className="text-center p-5">Het spel volgt binnenkort!</div>;
     }
     };
