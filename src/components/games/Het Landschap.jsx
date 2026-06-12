@@ -3,7 +3,7 @@ import "./App.css";
 
 const questions = [
   {
-    question: "Welk past bij het landschap van de tijd van de boeren?",
+    question: "Welk past bij het landschap van de tijd van de eerste boeren?",
     correct: 0,
     images: [
       "https://images.unsplash.com/photo-1509316785289-025f5b846b35",
