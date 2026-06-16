@@ -28,7 +28,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 25px;
-    align-items: stretch; /* Stretch links en rechts tot gelijke hoogte */
+    align-items: stretch; 
 }
 
 @media (min-width: 768px) {

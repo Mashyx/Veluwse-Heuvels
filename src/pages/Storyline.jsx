@@ -34,20 +34,26 @@ function Storyline() {
   // Functie die bepaalt welk spel getoond moet worden bij stap 3
   const renderGame = () => {
     switch (id) {
-      case 'storyline1':
-        return <DierenGame />;
+      // case 'storyline1':
+      //   return ;
       case 'storyline2':
-        return <KledingGame />;
-      case 'storyline3':
-        return <StoomkuilGame />;
-      case 'storyline4':
-        return <RitueelGame />;
-      case 'storyline5':
         return <GrafheuvelGame />;
-      case 'storyline8':
+      case 'storyline3':
+        return <RitueelGame />;
+      case 'storyline4':
+        return <StoomkuilGame />;
+      // case 'storyline5':
+      //   return ;
+      case 'storyline6':
+        return <DoodGame />;
+      case 'storyline7':
+        return <KledingGame />;
+      // case 'storyline8':
+      //   return ;
+      case 'storyline9':
         return <LandschapGame />;
       case 'storyline10':
-        return <DoodGame />;
+        return <DierenGame />;
       default:
         return <div className="text-center p-5">Het spel volgt binnenkort!</div>;
     }
