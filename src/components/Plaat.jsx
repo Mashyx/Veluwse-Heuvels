@@ -249,28 +249,22 @@ export default function Plaat() {
     if (!selectedHotspot || !containerRef.current || !wrapperRef.current) return;
 
     const container = containerRef.current;
-    const wrapper = wrapperRef.current;
     
-    // Bereken waar het vergrootglas op het scherm zou staan
     const baseWidth = container.offsetWidth / state.current.scale;
     const baseHeight = container.offsetHeight / state.current.scale;
     
     const hx = parseCoord(selectedHotspot.left, baseWidth);
     const hy = parseCoord(selectedHotspot.top, baseHeight);
     
-    // Screen positie van de hotspot
     const screenX = state.current.offsetX + hx * state.current.scale;
     const screenY = state.current.offsetY + hy * state.current.scale;
     
-    // Verkrijg de corresponderende popup
     const popup = document.querySelector(`[data-spot-id="${selectedHotspot.id}"].popup`);
     if (!popup) return;
 
-    // Plaats popup net boven het vergrootglas-icoon
-    let left = screenX - 200; // Ongeveer halverwege
-    let top = screenY - 250; // Boven het icoon
+    let left = screenX - 200; 
+    let top = screenY - 250; 
 
-    // Houd de popup in het viewport
     if (left < 10) left = 10;
     if (left + 400 > window.innerWidth - 10) left = window.innerWidth - 410;
     if (top < 10) top = 10;
@@ -282,10 +276,8 @@ export default function Plaat() {
   useEffect(() => {
     if (!selectedHotspot) return;
 
-    // Update de positie onmiddellijk
     updatePopupPosition();
 
-    // Zet een animation frame loop om de positie continu bij te werken
     let rafId;
     const animate = () => {
       updatePopupPosition();
@@ -325,11 +317,9 @@ export default function Plaat() {
     const hx = parseCoord(spot.left, baseWidth);
     const hy = parseCoord(spot.top, baseHeight);
 
-    // choose a target zoom level (zoom in if currently small)
     const targetScale = clamp(Math.max(state.current.scale, 1.8));
     state.current.scale = targetScale;
 
-    // compute offsets so hotspot is centered in wrapper
     state.current.offsetX = wrapperW / 2 - hx * state.current.scale;
     state.current.offsetY = wrapperH / 2 - hy * state.current.scale;
 
@@ -360,9 +350,10 @@ export default function Plaat() {
 
         <aside className={`poi-sidebar ${poiOpen ? 'open' : 'closed'}`}>
           <h4>POI's</h4>
-          {currentPlaat.hotspots.map(s => (
+          {/* ✅ STAP 1: Nummering in de zijbalk toevoegen via de index */}
+          {currentPlaat.hotspots.map((s, index) => (
             <div key={s.id} className={`poi-item ${selectedHotspot && selectedHotspot.id === s.id ? 'active' : ''}`} onClick={() => navigateToSpot(s)}>
-              <div className="dot" />
+              <div className="dot">{index + 1}</div>
               <div className="poi-title">{s.title}</div>
             </div>
           ))}
@@ -378,9 +369,10 @@ export default function Plaat() {
       <div id="plaat-container" ref={containerRef} onClick={() => { if (state.current.hasMoved) setSelectedHotspot(null); }}>
         <img id="plaat-img" src={currentPlaat.image} alt={currentPlaat.title} draggable="false" />
 
-        {currentPlaat.hotspots.map((spot) => (
+        {/* ✅ STAP 2: Vergrootglas-icoon vervangen door het nummer op de schoolplaat */}
+        {currentPlaat.hotspots.map((spot, index) => (
           <div key={spot.id} className="vergrootglas" data-spot-id={spot.id} style={{ top: spot.top, left: spot.left, visibility: isZooming ? 'hidden' : 'visible' }} onClick={(e) => handleHotspotClick(e, spot)}>
-            <i className="bi bi-search"></i>
+            {index + 1}
           </div>
         ))}
       </div>
