@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./App.css";
+import "./LandschapGame.css";
 
 const questions = [
   {
@@ -13,7 +13,7 @@ const questions = [
   }
 ];
 
-export default function App() {
+export default function LandschapGame() {
   const [index, setIndex] = useState(0);
   const [message, setMessage] = useState("");
   const [score, setScore] = useState(0);

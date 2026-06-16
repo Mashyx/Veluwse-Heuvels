@@ -9,6 +9,7 @@ import KledingGame from '../components/games/KledingGame';
 import RitueelGame from '../components/games/RitueelGame';
 import GrafheuvelGame from '../components/games/GrafheuvelGame';
 import DoodGame from '../components/games/DoodGame';
+import LandschapGame from '../components/games/LandschapGame';
 
 function Storyline() {
   const { id } = useParams(); 
@@ -41,9 +42,10 @@ function Storyline() {
         return <StoomkuilGame />;
       case 'storyline4':
         return <RitueelGame />;
-        case 'storyline8':
       case 'storyline5':
         return <GrafheuvelGame />;
+      case 'storyline8':
+        return <LandschapGame />;
       case 'storyline10':
         return <DoodGame />;
       default:
