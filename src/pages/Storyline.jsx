@@ -39,6 +39,7 @@ function Storyline() {
         return <StoomkuilGame />;
         case 'storyline4':
         return <RitueelGame />;
+        case 'storyline8':
         default:
         return <div className="text-center p-5">Het spel volgt binnenkort!</div>;
     }
