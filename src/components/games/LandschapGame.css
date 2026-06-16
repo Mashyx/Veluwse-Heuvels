@@ -3,43 +3,45 @@ body {
   font-family: Arial, sans-serif;
   background: linear-gradient(to bottom, #87ceeb, #e0f6ff);
 }
-
 .game {
   text-align: center;
-  padding: 30px;
-}
-
-h1 {
-  color: #2c3e50;
 }
 
 .grid {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
 }
 
-.image {
-  width: 220px;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 15px;
+.card {
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  overflow: hidden;
   cursor: pointer;
-  border: 4px solid transparent;
-  transition: transform 0.2s, border 0.2s;
+
+  /* 🔥 BELANGRIJK voor animatie */
+  transition: transform 1.5s ease;
 }
 
-.image:hover {
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.back {
+  width: 100%;
+  height: 100%;
+  background: #333;
+  color: white;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* optioneel effect */
+.card:hover {
   transform: scale(1.05);
-}
-
-.selected {
-  border: 4px solid #2ecc71;
-}
-
-.message {
-  font-size: 22px;
-  font-weight: bold;
-  margin-top: 20px;
 }
