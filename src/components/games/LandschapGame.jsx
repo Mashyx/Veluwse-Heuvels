@@ -1,30 +1,65 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import "./LandschapGame.css";
 
-const questions = [
-  {
-    question: "Welk past bij het landschap van de tijd van de eerste boeren?",
-    correct: 0,
-    images: [
-      "https://images.unsplash.com/photo-1509316785289-025f5b846b35",
-      "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
-    ],
-  }
+const baseCards = [
+  { id: 1, name: "Veluwe", image: "/images/storyline8/veluwen.jpeg" },
+  { id: 2, name: "Ardennen", image: "/images/storyline8/ardennnen.jpg" },
+  { id: 3, name: "Sahara", image: "/images/storyline8/shahara.jpeg" },
 ];
 
+function shuffle(array) {
+  return [...array].sort(() => Math.random() - 0.5);
+}
+
 export default function LandschapGame() {
-  const [index, setIndex] = useState(0);
+  const maxRounds = 3;
+
+  const [cards, setCards] = useState(shuffle(baseCards));
+  const [flipped, setFlipped] = useState(false);
   const [message, setMessage] = useState("");
   const [score, setScore] = useState(0);
-  const [selected, setSelected] = useState(null);
+  const [round, setRound] = useState(0);
+  const [canClick, setCanClick] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [running, setRunning] = useState(false);
 
-  const current = questions[index];
+  const startRound = () => {
+    if (round >= maxRounds) {
+      setGameOver(true);
+      return;
+    }
 
-  const handleClick = (i) => {
-    setSelected(i);
+    setRunning(true);
+    setMessage("");
+    setCanClick(false);
+    setFlipped(false);
 
-    const isCorrect = i === current.correct;
+    setTimeout(() => {
+      setFlipped(true);
+
+      let count = 0;
+
+      const interval = setInterval(() => {
+        setCards(shuffle(baseCards));
+        count++;
+
+        if (count >= 10) {
+          clearInterval(interval);
+          setCanClick(true);
+          setRunning(false);
+        }
+      }, 120);
+    }, 700);
+  };
+
+  const handleClick = (card) => {
+    if (!canClick || gameOver) return;
+
+    const isCorrect = card.name === "Veluwe";
+
+    setCanClick(false);
+    setFlipped(false);
 
     if (isCorrect) {
       setMessage("✅ Goed!");
@@ -34,33 +69,51 @@ export default function LandschapGame() {
     }
 
     setTimeout(() => {
-      setMessage("");
-      setSelected(null);
+      const nextRound = round + 1;
+      setRound(nextRound);
 
-      if (index < questions.length - 1) {
-        setIndex(index + 1);
+      if (nextRound >= maxRounds) {
+        setGameOver(true);
       } else {
-        setMessage(`🎉 Klaar! Score: ${score + (isCorrect ? 1 : 0)}/${questions.length}`);
+        startRound();
       }
     }, 1200);
   };
 
   return (
     <div className="game">
-      <h1>🌍 Landschap Kies Game</h1>
+      <h1>🌍 Landschap Game</h1>
 
-      <h2>{current.question}</h2>
+      <h2>
+        Ronde: {round + 1} / {maxRounds}
+      </h2>
+
+      {gameOver ? (
+        <h2>🎉 Game Over! Score: {score}/{maxRounds}</h2>
+      ) : (
+        <button onClick={startRound} disabled={running}>
+          Start
+        </button>
+      )}
 
       <div className="grid">
-        {current.images.map((img, i) => (
-          <img
-            key={i}
-            src={img}
-            alt="landschap"
-            className={`image ${selected === i ? "selected" : ""}`}
-            onClick={() => handleClick(i)}
-          />
-        ))}
+        <AnimatePresence>
+          {cards.map((card) => (
+            <motion.div
+              key={card.id}
+              layout
+              transition={{ duration: 0.4 }}
+              className={`card ${flipped ? "flipped" : ""}`}
+              onClick={() => handleClick(card)}
+            >
+              {flipped ? (
+                <div className="back">?</div>
+              ) : (
+                <img src={card.image} alt={card.name} />
+              )}
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
 
       <p className="message">{message}</p>
