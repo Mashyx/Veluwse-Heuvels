@@ -41,6 +41,7 @@ function Storyline() {
         return <StoomkuilGame />;
       case 'storyline4':
         return <RitueelGame />;
+        case 'storyline8':
       case 'storyline5':
         return <GrafheuvelGame />;
       case 'storyline10':
