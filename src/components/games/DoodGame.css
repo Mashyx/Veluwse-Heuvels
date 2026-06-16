@@ -1,0 +1,293 @@
+.dood-game {
+    --brons-kleur: #8c583a;
+    --brons-donker: #4a2c18;
+    --achtergrond-creme: #fdf6ec;
+    --tekst-kleur: #2c1a11;
+    
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 10px;
+    color: var(--tekst-kleur);
+}
+
+.dood-game h2, 
+.dood-game h3 {
+    color: var(--tekst-kleur);
+}
+
+.intro-text {
+    font-style: italic;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+}
+
+/* --- De Stretch Layout Fix --- */
+.game-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+    align-items: stretch; 
+}
+
+@media (min-width: 768px) {
+    .game-layout {
+        grid-template-columns: 0.9fr 1.1fr;
+    }
+}
+
+/* --- Linkerkant: Status & Voortgang --- */
+.ritueel-status-box {
+    background-color: #f7ede2;
+    border: 3px solid var(--brons-kleur);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.stappen-toren {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.stap-balk {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border: 2px solid #e3d5ca;
+    border-radius: 12px;
+    font-weight: bold;
+    opacity: 0.5;
+    transition: 0.3s;
+    color: var(--tekst-kleur);
+}
+
+.stap-balk.actief {
+    opacity: 1;
+    border-color: var(--brons-kleur);
+    background-color: #fff9f2;
+    box-shadow: 0 4px 10px rgba(140, 88, 58, 0.15);
+}
+
+.stap-balk.voltooid {
+    opacity: 0.9;
+    background-color: #e8f5e9;
+    border-color: #81c784;
+    color: #2e7d32;
+}
+
+.stap-nummer {
+    background-color: var(--brons-kleur);
+    color: white;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+}
+
+.stap-balk.voltooid .stap-nummer {
+    background-color: #2e7d32;
+    color: white;
+}
+
+.stap-naam {
+    font-size: 0.9rem;
+}
+
+/* Visuele Animatie Plaat */
+.visuele-fase-plaat {
+    background-color: #ffffff;
+    border: 2px solid var(--brons-kleur);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 160px;
+}
+
+.krijger-avatar { font-size: 3rem; display: block; }
+.kuil-icon { font-size: 2rem; margin: 0 5px; }
+.heuvel-icon { font-size: 4rem; display: block; }
+.status-label { font-size: 0.8rem; font-weight: bold; margin-top: 8px; opacity: 0.7; color: var(--tekst-kleur); }
+
+.gekozen-giften-manden {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    min-height: 40px;
+}
+
+.gift-badge {
+    font-size: 1.8rem;
+    background-color: var(--achtergrond-creme);
+    border: 1px solid var(--brons-kleur);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+/* --- Rechterkant: Interactie Box --- */
+.interactie-box {
+    background-color: var(--achtergrond-creme);
+    border: 3px solid var(--brons-kleur);
+    border-radius: 20px;
+    padding: 25px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.actieve-fase {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.vraag-tekst {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: var(--tekst-kleur);
+}
+
+/* Giften Grid (Fase 1) */
+.giften-grid-keuze {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.gift-select-btn {
+    background-color: #ffffff;
+    border: 2px solid #e3d5ca;
+    border-radius: 12px;
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    color: var(--tekst-kleur) !important;
+}
+
+.gift-select-btn:hover:not(:disabled) {
+    border-color: var(--brons-kleur);
+    transform: translateY(-2px);
+}
+
+.gift-select-btn.selected {
+    background-color: #ffe0b2;
+    border-color: #ff9800;
+    box-shadow: 0 4px 8px rgba(255, 152, 0, 0.2);
+    color: var(--tekst-kleur) !important;
+}
+
+.gift-emoji { 
+    font-size: 2rem; 
+    margin-bottom: 6px; 
+}
+
+.gift-select-btn small {
+    font-weight: 700; 
+    font-size: 0.85rem;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* Dilemma Keuzes (Fase 2 & 3) */
+.dilemma-lijst-keuze {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.dilemma-btn {
+    background-color: #ffffff;
+    border: 2px solid #e3d5ca;
+    border-radius: 12px;
+    padding: 14px;
+    text-align: left;
+    font-size: 0.9rem;
+    font-weight: 700; 
+    cursor: pointer;
+    transition: 0.2s;
+    line-height: 1.4;
+    color: var(--tekst-kleur) !important;
+}
+
+.dilemma-btn:hover:not(:disabled) {
+    border-color: var(--brons-kleur);
+    background-color: #fff9f2;
+    color: var(--tekst-kleur) !important;
+}
+
+/* Feedback banners */
+.feedback-banner {
+    margin-top: auto; 
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.feedback-banner.goed { background-color: #e8f5e9; color: #2e7d32 !important; border: 1px solid #c8e6c9; }
+.feedback-banner.fout { background-color: #ffebee; color: #c62828 !important; border: 1px solid #ffcdd2; }
+
+/* Knoppen onderaan */
+.volgende-fase-btn {
+    background-color: #2e7d32;
+    color: white !important;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+
+.volgende-fase-btn:hover { background-color: #1b5e20; }
+
+.reset-ritueel-btn {
+    background-color: var(--brons-kleur);
+    color: white !important;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.reset-ritueel-btn:hover { background-color: var(--brons-donker); }
+
+/* Mobiel */
+@media (max-width: 767px) {
+    .ritueel-status-box, .interactie-box {
+        height: auto;
+    }
+}
