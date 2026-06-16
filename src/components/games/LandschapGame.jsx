@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import "./LandschapGame.css";
 
 const baseCards = [
@@ -84,9 +83,7 @@ export default function LandschapGame() {
     <div className="game">
       <h1>🌍 Landschap Game</h1>
 
-      <h2>
-        Ronde: {round + 1} / {maxRounds}
-      </h2>
+      <h2>Ronde: {round + 1} / {maxRounds}</h2>
 
       {gameOver ? (
         <h2>🎉 Game Over! Score: {score}/{maxRounds}</h2>
@@ -97,23 +94,19 @@ export default function LandschapGame() {
       )}
 
       <div className="grid">
-        <AnimatePresence>
-          {cards.map((card) => (
-            <motion.div
-              key={card.id}
-              layout
-              transition={{ duration: 0.4 }}
-              className={`card ${flipped ? "flipped" : ""}`}
-              onClick={() => handleClick(card)}
-            >
-              {flipped ? (
-                <div className="back">?</div>
-              ) : (
-                <img src={card.image} alt={card.name} />
-              )}
-            </motion.div>
-          ))}
-        </AnimatePresence>
+        {cards.map((card) => (
+          <div
+            key={card.id}
+            className={`card ${flipped ? "flipped" : ""}`}
+            onClick={() => handleClick(card)}
+          >
+            {flipped ? (
+              <div className="back">?</div>
+            ) : (
+              <img src={card.image} alt={card.name} />
+            )}
+          </div>
+        ))}
       </div>
 
       <p className="message">{message}</p>

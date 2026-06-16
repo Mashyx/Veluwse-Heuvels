@@ -11,19 +11,17 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-  margin-top: 20px;
 }
 
 .card {
   width: 150px;
   height: 150px;
-  cursor: pointer;
   border-radius: 12px;
   overflow: hidden;
-  background: #222;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  cursor: pointer;
+
+  /* 🔥 BELANGRIJK voor animatie */
+  transition: transform 1.5s ease;
 }
 
 .card img {
@@ -33,11 +31,17 @@ body {
 }
 
 .back {
-  font-size: 40px;
+  width: 100%;
+  height: 100%;
+  background: #333;
   color: white;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.message {
-  margin-top: 10px;
-  font-size: 20px;
+/* optioneel effect */
+.card:hover {
+  transform: scale(1.05);
 }
