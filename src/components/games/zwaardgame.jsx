@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './zwaardgame.css';
+import './Zwaardgame.css';
 
 export default function ZwaardGame({ onComplete }) {
   const [phase, setPhase] = useState('forge');
