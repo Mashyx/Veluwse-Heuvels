@@ -10,6 +10,7 @@ import RitueelGame from '../components/games/RitueelGame';
 import GrafheuvelGame from '../components/games/GrafheuvelGame';
 import DoodGame from '../components/games/DoodGame';
 import LandschapGame from '../components/games/LandschapGame';
+import ZwaardGame from '../components/games/Zwaardgame';
 
 function Storyline() {
   const { id } = useParams(); 
@@ -34,8 +35,8 @@ function Storyline() {
   // Functie die bepaalt welk spel getoond moet worden bij stap 3
   const renderGame = () => {
     switch (id) {
-      // case 'storyline1':
-      //   return ;
+      case 'storyline1':
+        return <ZwaardGame />;
       case 'storyline2':
         return <GrafheuvelGame />;
       case 'storyline3':
