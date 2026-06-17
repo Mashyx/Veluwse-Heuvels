@@ -7,7 +7,9 @@ import './Storyline.css';
 import DierenGame from '../components/games/DierenGame'; 
 import KledingGame from '../components/games/KledingGame';
 import RitueelGame from '../components/games/RitueelGame';
-import ZwaardGame from '../components/games/ZwaardGame';
+import GrafheuvelGame from '../components/games/GrafheuvelGame';
+import DoodGame from '../components/games/DoodGame';
+import LandschapGame from '../components/games/LandschapGame';
 
 function Storyline() {
   const { id } = useParams(); 
@@ -30,22 +32,32 @@ function Storyline() {
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
 
   // Functie die bepaalt welk spel getoond moet worden bij stap 3
-    const renderGame = () => {
+  const renderGame = () => {
     switch (id) {
-        case 'storyline1':
-        return <DierenGame />;
-        case 'storyline2':
-        return <KledingGame />;
-        case 'storyline3':
-        return <StoomkuilGame />;
-        case 'storyline4':
+      // case 'storyline1':
+      //   return ;
+      case 'storyline2':
+        return <GrafheuvelGame />;
+      case 'storyline3':
         return <RitueelGame />;
-        case 'storyline9':
-          return <ZwaardGame />;
-          default:
+      case 'storyline4':
+        return <StoomkuilGame />;
+      // case 'storyline5':
+      //   return ;
+      case 'storyline6':
+        return <DoodGame />;
+      case 'storyline7':
+        return <KledingGame />;
+      // case 'storyline8':
+      //   return ;
+      case 'storyline9':
+        return <LandschapGame />;
+      case 'storyline10':
+        return <DierenGame />;
+      default:
         return <div className="text-center p-5">Het spel volgt binnenkort!</div>;
     }
-    };
+  };
 
   return (
     <div className="storyline-page">
@@ -57,7 +69,6 @@ function Storyline() {
       </button>
 
       <div className="storyline-header d-flex flex-column align-items-center mb-4">
-        {/* De Titel Pill */}
         <div className="storyline-title-pill shadow-sm">
             <h1 className="h4 mb-0">{data.title}</h1>
         </div>
@@ -71,7 +82,7 @@ function Storyline() {
             ></div>
             ))}
         </div>
-        </div>
+      </div>
 
       <main className="flex-grow-1 d-flex justify-content-center w-100">
         <div className="storyline-card shadow-lg">
@@ -86,10 +97,20 @@ function Storyline() {
           )}
 
           {step === 2 && (
-            <div className="animate-fade-in text-center">
-              <div className="ratio ratio-16x9 shadow rounded overflow-hidden mx-auto" style={{ maxWidth: '800px' }}>
-                <iframe src={data.videoUrl} title="Video" allowFullScreen></iframe>
-              </div>
+            <div className="animate-fade-in text-center d-flex align-items-center justify-content-center h-100">
+              {data.videoUrl ? (
+                /* Als er een videoUrl is: toon de video */
+                <div className="ratio ratio-16x9 shadow rounded overflow-hidden mx-auto" style={{ maxWidth: '800px', width: '100%' }}>
+                  <iframe src={data.videoUrl} title="Video" allowFullScreen></iframe>
+                </div>
+              ) : (
+                /* Als de videoUrl leeg of afwezig is: toon de placeholder-melding */
+                <div className="p-5 border border-2 border-dashed rounded bg-light mx-auto shadow-sm" style={{ maxWidth: '600px' }}>
+                  <i className="bi bi-hourglass-split display-3 text-muted mb-3 d-block"></i>
+                  <h3 className="h5 text-muted">Video wordt nog gemaakt</h3>
+                  <p className="text-muted mb-0">De archeologen en filmmakers leggen momenteel de laatste hand aan deze video. Kom snel nog eens terug!</p>
+                </div>
+              )}
             </div>
           )}
 

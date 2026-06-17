@@ -113,7 +113,7 @@
 .storyline-card img {
     transition: transform 0.3s ease;
     object-fit: cover;
-    border: 2px solid #6e4a2b;
+    border: none !important;
 }
 
 .storyline-card img:hover {
