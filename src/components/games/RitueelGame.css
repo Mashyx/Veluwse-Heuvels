@@ -20,7 +20,7 @@
 }
 
 .start-btn {
-    background-color: var(--veluwe-bronze);
+    background-color: #7b4f2c !important;
     color: #fff7ea !important;
     border: 2px solid var(--veluwe-bronze-dark);
     padding: 16px 45px;

@@ -7,13 +7,14 @@
     flex-direction: column;
     position: relative;
     padding-bottom: 80px; 
+    box-sizing: border-box;
 }
 
 /* Titelbalk & Bolletjes Header */
 .storyline-header {
     display: flex;
-    flex-direction: column; /* Dit zorgt dat bolletjes ONDER de titel komen */
-    align-items: center;    /* Alles horizontaal in het midden */
+    flex-direction: column; 
+    align-items: center;    
     padding: 20px 0;
     width: 100%;
 }
@@ -27,16 +28,17 @@
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     padding: 10px 20px;
     text-align: center;
-    margin-bottom: 15px; /* Ruimte tussen titel en bolletjes */
+    margin-bottom: 15px;
 }
 
 .storyline-title-pill h1 {
     color: #4a2f16;
     font-weight: 700;
     margin: 0;
+    font-size: 1.8rem;
 }
 
-/* Voortgangs Bolletjes (nu onder de titel) */
+/* Voortgangs Bolletjes */
 .step-indicator {
     display: flex;
     gap: 15px;
@@ -60,17 +62,68 @@
     background-color: #4a2f16;
 }
 
-/* Content Kaart (Gelijke breedte op alle stappen) */
+/* --- Content Kaart (Krimpt automatisch mee met de tekst) --- */
 .storyline-card {
     background: #f5e1c1;
     border: 3px solid #6e4a2b !important;
     border-radius: 20px;
-    min-height: 500px; 
-    width: 100%;
-    max-width: 1000px; /* Houdt de breedte overal hetzelfde */
+    
+    height: auto; 
+    min-height: 200px; 
+    
+    width: 90%;
+    max-width: 950px; 
     box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-    padding: 30px;
-    margin: 0 auto;    /* Centreert het vak */
+    padding: 35px;
+    margin: 0 auto;    
+    box-sizing: border-box;
+}
+
+/* --- Stap 1 Flexbox Lay-out (Overschrijft de Bootstrap row) --- */
+.storyline-card .row {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Zorgt dat de tekstkolom netjes uitlijnt */
+.storyline-card .col-lg-8 {
+    width: 100%;
+    padding: 0;
+}
+
+/* 🟥 GEFIXT: De container waar de afbeeldingen (col-lg-4) in leven */
+.storyline-card .col-lg-4 {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: row; /* Zet meerdere plaatjes gezellig naast elkaar */
+    flex-wrap: wrap;     /* Laat ze netjes afbreken op mobiel */
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Naar grotere schermen (Desktop/Laptop) transformeren we naar een side-by-side weergave */
+@media (min-width: 992px) {
+    .storyline-card .row {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .storyline-card .col-lg-8 {
+        flex: 1;
+        width: 60%;
+    }
+    
+    .storyline-card .col-lg-4 {
+        width: 35%;
+        flex-direction: column; /* Stapel ze verticaal naast de lange tekst */
+        max-height: 400px;
+    }
 }
 
 /* --- Navigatie Knoppen (Zijkanten) --- */
@@ -92,6 +145,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .storyline-btn-left:hover,
@@ -103,17 +157,27 @@
 .storyline-btn-left { left: 20px; }
 .storyline-btn-right { right: 20px; }
 
-/* --- Stap 1: Tekst & Beeld --- */
-.storyline-text-box p {
+/* --- Tekst & Afbeelding Scaling --- */
+.storyline-card p {
     font-size: 1.1rem;
     line-height: 1.6;
     color: #4a2f16;
+    margin: 0;
 }
-
 .storyline-card img {
     transition: transform 0.3s ease;
-    object-fit: cover;
+    object-fit: contain;
     border: none !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
+    border-radius: 12px;
+    
+    /* Vaste, nette hoogte zodat ze nooit meer je scherm overnemen */
+    height: 175px !important; 
+    width: auto !important;
+    max-width: 100%;
+    
+    display: block;
+    margin: 0 auto;
 }
 
 .storyline-card img:hover {
@@ -121,23 +185,39 @@
 }
 
 /* --- Stap 4: Quiz Styling --- */
+.quiz-box, 
+.storyline-card .animate-fade-in {
+    width: 100%;
+    text-align: center;
+}
+
 .quiz-box h4 {
     color: #4a2f16;
     font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.answer-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .answer-options button {
     background-color: #7b4f2c !important;
     color: #fff !important;
     border: none !important;
-    padding: 12px !important;
+    padding: 14px !important;
     border-radius: 10px !important;
     transition: all 0.2s ease !important;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
 }
 
 .answer-options button:hover:not(:disabled) {
     background-color: #5a371d !important;
-    transform: scale(1.03);
+    transform: scale(1.02);
 }
 
 .btn-finish-story {
@@ -146,7 +226,38 @@
     color: white;
     border-radius: 12px;
     font-weight: 600;
-    padding: 10px 20px;
+    padding: 12px 24px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.storyline-card .btn-primary,
+.storyline-card .btn,
+.quiz-box .btn {
+    background-color: #7b4f2c !important;
+    color: #ffffff !important;
+    border: 2px solid #6e4a2b !important;
+    border-radius: 12px !important;
+    padding: 12px 30px !important;
+    font-weight: 700 !important;
+    font-size: 1.05rem !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease, transform 0.15s ease !important;
+    box-shadow: 0 4px 12px rgba(123, 79, 44, 0.2) !important;
+}
+
+.storyline-card .btn-primary:hover,
+.storyline-card .btn:hover,
+.quiz-box .btn:hover {
+    background-color: #5a371d !important;
+    border-color: #4a2f16 !important;
+    transform: scale(1.04) !important;
+    box-shadow: 0 6px 16px rgba(123, 79, 44, 0.35) !important;
+}
+
+.storyline-card h2,
+.storyline-card p {
+    color: #4a2f16;
 }
 
 /* --- Animatie --- */
@@ -159,10 +270,21 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Responsive --- */
+/* --- Responsive Mobiel --- */
 @media (max-width: 768px) {
-    .storyline-title-pill { width: 90%; }
+    .storyline-title-pill { width: 95%; }
+    .storyline-title-pill h1 { font-size: 1.2rem; }
     .storyline-btn-left { left: 5px; }
     .storyline-btn-right { right: 5px; }
-    .storyline-card { padding: 15px; }
+    .storyline-card { 
+        padding: 20px; 
+        width: 95%;
+    }
+    .storyline-card .col-lg-4 {
+        flex-direction: row; /* Plaatjes netjes naast elkaar op mobiele touchscreens */
+        justify-content: center;
+    }
+    .storyline-card img {
+        height: 120px !important; /* Iets compacter op mobiel */
+    }
 }
